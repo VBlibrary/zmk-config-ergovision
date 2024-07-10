@@ -19,6 +19,6 @@
 ---
 include:
   - board: nice_nano_v2
-    shield: iris_left
+    shield: ergovision_left
   - board: nice_nano_v2
-    shield: iris_right
+    shield: ergovision_right

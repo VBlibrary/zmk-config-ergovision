@@ -13,7 +13,7 @@ if SHIELD_MY_BOARD_RIGHT
 config ZMK_KEYBOARD_NAME
     default "ErgoVision"
 
-config ZMK_SPLIT_ROLE_PERIPHERAL
+config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
 endif

@@ -20,6 +20,7 @@
         >;
     };
 
+    // Define the left half of the keyboard matrix
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
         wakeup-source;
@@ -39,5 +40,27 @@
             <&gpio0 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio0 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+    };
+
+    // Define the right half of the keyboard matrix
+    kscan1: kscan {
+        compatible = "zmk,kscan-gpio-matrix";
+        wakeup-source;
+
+        diode-direction = "col2row";
+        row-gpios = 
+            <&gpio1 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+            <&gpio1 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+            <&gpio1 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+            <&gpio1 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+            <&gpio1 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+
+        col-gpios = 
+            <&gpio1 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+            <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+            <&gpio1 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+            <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+            <&gpio1 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+            <&gpio1 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
     };
 };

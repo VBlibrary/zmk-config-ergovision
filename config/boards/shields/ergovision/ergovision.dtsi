@@ -2,13 +2,12 @@
 
 / {
     chosen {
-        zmk,kscan = &kscan0;
         zmk,matrix_transform = &default_transform;
     };
 
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
-        columns = <12>;
+        columns = <12>; // Total columns for both halves
         rows = <5>;
 
         map = <
@@ -20,20 +19,19 @@
         >;
     };
 
-    // Define the left half of the keyboard matrix
-    kscan0: kscan {
+    kscan0: kscan_left {
         compatible = "zmk,kscan-gpio-matrix";
         wakeup-source;
 
         diode-direction = "col2row";
-        row-gpios = 
+        row-gpios =
             <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio0 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio0 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio0 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
 
-        col-gpios = 
+        col-gpios =
             <&gpio0 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio0 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio0 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
@@ -42,20 +40,19 @@
             <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
     };
 
-    // Define the right half of the keyboard matrix
-    kscan1: kscan {
+    kscan1: kscan_right {
         compatible = "zmk,kscan-gpio-matrix";
         wakeup-source;
 
         diode-direction = "col2row";
-        row-gpios = 
+        row-gpios =
             <&gpio1 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio1 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio1 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio1 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio1 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
 
-        col-gpios = 
+        col-gpios =
             <&gpio1 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
             <&gpio1 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,

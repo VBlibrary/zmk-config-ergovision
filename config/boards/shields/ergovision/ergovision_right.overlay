@@ -12,8 +12,8 @@
     compatible = "zmk,keyboard";
     
     matrix {
-        rows= <5>
-        cols= <6>
+        rows= <5>;
+        cols= <6>;
     
     
         

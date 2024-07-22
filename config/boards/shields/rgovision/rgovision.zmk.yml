@@ -1,11 +1,8 @@
 file_format: "1"
-id: ergovison
-name: ErgoVision
+id: rgovison
+name: rgoVision
 type: shield
 url: https://github.com/VBlibrary/zmk-config
 requires: [nice_nano_v2]
 features:
   - keys
-siblings:
-  - ergovision_left
-  - ergovision_right

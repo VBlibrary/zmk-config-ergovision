@@ -1,0 +1,8 @@
+# Copyright (c) 2022 ZMK Contributors
+# SPDX-License-Identifier: MIT
+if SHIELD_MY_BOARD
+
+config ZMK_KEYBOARD_NAME
+    default "RGOVision"
+
+endif 

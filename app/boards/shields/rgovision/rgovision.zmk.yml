@@ -1,0 +1,8 @@
+file_format: "1"
+id: rgovison
+name: rgoVision
+type: shield
+url: https://github.com/VBlibrary/zmk-config
+requires: [nice_nano_v2]
+features:
+  - keys

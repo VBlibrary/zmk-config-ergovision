@@ -42,4 +42,14 @@
             RC(4,0) RC(4,1) RC(4,2)                    
         >;
     };
+    trackpad0: trackpad0 {
+        compatible = "cirque,trackpad";
+        label = "Trackpad0";
+        status = "okay";
+
+        i2c-bus = <&i2c0>;
+        i2c-address = <0x12>;
+        gpio-sda = <&pro_micro 2 (GPIO_ACTIVE_HIGH)>;
+        gpio-scl = <&pro_micro 3 (GPIO_ACTIVE_HIGH)>;
+    };
 };

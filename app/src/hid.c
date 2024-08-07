@@ -228,6 +228,7 @@ int zmk_hid_consumer_release(zmk_key_t code) {
 
 void zmk_hid_consumer_clear() { memset(&consumer_report.body, 0, sizeof(consumer_report.body)); }
 
+<<<<<<< HEAD
 bool zmk_hid_consumer_is_pressed(zmk_key_t key) {
     for (int idx = 0; idx < CONFIG_ZMK_HID_CONSUMER_REPORT_SIZE; idx++) {
         if (consumer_report.body.keys[idx] == key) {
@@ -267,6 +268,8 @@ bool zmk_hid_is_pressed(uint32_t usage) {
     return false;
 }
 
+=======
+>>>>>>> mouse-pr/mouse-pr
 // Keep track of how often a button was pressed.
 // Only release the button if the count is 0.
 static int explicit_button_counts[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};

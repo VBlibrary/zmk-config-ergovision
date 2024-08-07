@@ -33,7 +33,10 @@ module.exports = {
       "behaviors/sticky-layer",
       "behaviors/tap-dance",
       "behaviors/caps-word",
+<<<<<<< HEAD
       "behaviors/key-repeat",
+=======
+>>>>>>> mouse-pr/mouse-pr
       "behaviors/mouse-emulation",
       "behaviors/reset",
       "behaviors/bluetooth",

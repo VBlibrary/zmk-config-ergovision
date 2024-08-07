@@ -19,6 +19,47 @@ concurrency:
 permissions: {}
 
 jobs:
+  compile-matrix:
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    outputs:
+      include-list: ${{ steps.compile-list.outputs.result }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Join build lists
+        uses: actions/github-script@v7
+        id: compile-list
+        with:
+          script: |
+            const coreCoverage = `${{ needs.core-coverage.outputs.core-include }}` || "[]";
+            const boardChanges = `${{ needs.board-changes.outputs.boards-include }}` || "[]";
+            const nightly = `${{ needs.nightly.outputs.nightly-include }}` || "[]";
+
+            const combined = [
+              ...JSON.parse(coreCoverage),
+              ...JSON.parse(boardChanges),
+              ...JSON.parse(nightly)
+            ];
+            const combinedUnique = [...new Map(combined.map(el => [JSON.stringify(el), el])).values()];
+
+            const perBoard = {};
+
+            for (const configuration of combinedUnique) {
+              if (!perBoard[configuration.board])
+                perBoard[configuration.board] = [];
+
+              perBoard[configuration.board].push({
+                shield: configuration.shield,
+                'cmake-args': configuration['cmake-args'],
+                nickname: configuration.nickname
+              })
+            }
+
+            return Object.entries(perBoard).map(([board, shieldArgs]) => ({
+              board,
+              shieldArgs: JSON.stringify(shieldArgs),
+            }));
   build:
     if: ${{ always() }}
     runs-on: ubuntu-latest
@@ -137,46 +178,6 @@ jobs:
             if (error) {
               throw new Error('Failed to build one or more configurations');
             }
-  compile-matrix:
-    if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
-    needs: [core-coverage, board-changes, nightly]
-    outputs:
-      include-list: ${{ steps.compile-list.outputs.result }}
-    steps:
-      - name: Join build lists
-        uses: actions/github-script@v7
-        id: compile-list
-        with:
-          script: |
-            const coreCoverage = `${{ needs.core-coverage.outputs.core-include }}` || "[]";
-            const boardChanges = `${{ needs.board-changes.outputs.boards-include }}` || "[]";
-            const nightly = `${{ needs.nightly.outputs.nightly-include }}` || "[]";
-
-            const combined = [
-              ...JSON.parse(coreCoverage),
-              ...JSON.parse(boardChanges),
-              ...JSON.parse(nightly)
-            ];
-            const combinedUnique = [...new Map(combined.map(el => [JSON.stringify(el), el])).values()];
-
-            const perBoard = {};
-
-            for (const configuration of combinedUnique) {
-              if (!perBoard[configuration.board])
-                perBoard[configuration.board] = [];
-
-              perBoard[configuration.board].push({
-                shield: configuration.shield,
-                'cmake-args': configuration['cmake-args'],
-                nickname: configuration.nickname
-              })
-            }
-
-            return Object.entries(perBoard).map(([board, shieldArgs]) => ({
-              board,
-              shieldArgs: JSON.stringify(shieldArgs),
-            }));
   core-coverage:
     if: ${{ needs.get-changed-files.outputs.core-changes == 'true' }}
     runs-on: ubuntu-latest
@@ -253,10 +254,4 @@ jobs:
                   }));
                 } else {
                   return {
-                    board: b.id,
-                    shield: s.id
-                  };
-                }
-              }
-
-              return aggregated.flatMap(hm => {
+                   

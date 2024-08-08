@@ -1,9 +1,15 @@
-board:
-- nice_nano_v2
-shield:
-- rgovision
-- settings_reset
-include:
-- board: nice_nano_v2
-  shield: rgovision
+ on: [push, pull_request, workflow_dispatch]
+
+ jobs:
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+
+ board:
+  - nice_nano_v2
+ shield:
+  - rgovision
+  - settings_reset
+ include:
+ - board: nice_nano_v2
+ - shield: rgovision
   

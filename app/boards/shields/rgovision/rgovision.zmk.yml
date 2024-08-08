@@ -6,3 +6,7 @@ url: https://github.com/VBlibrary/zmk-config
 requires: [nice_nano_v2]
 features:
   - keys
+supported:
+ - i2c
+ - ble
+ - usb_device

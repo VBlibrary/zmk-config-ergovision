@@ -49,7 +49,7 @@
 
         i2c-bus = <&i2c0>;
         i2c-address = <0x12>;
-        gpio-sda = <&pro_micro 2 (GPIO_ACTIVE_HIGH)>;
-        gpio-scl = <&pro_micro 3 (GPIO_ACTIVE_HIGH)>;
+        gpio-sda = <&pro_micro_i2c 2 (GPIO_ACTIVE_HIGH)>;
+        gpio-scl = <&pro_micro_i2c 3 (GPIO_ACTIVE_HIGH)>;
     };
 };

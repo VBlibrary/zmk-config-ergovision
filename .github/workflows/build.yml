@@ -21,10 +21,15 @@ jobs:
     needs: compile-matrix
     strategy:
       matrix:
-        include: ${{ fromJSON(needs.compile-matrix.outputs.include-list) }}
-    steps:
+        include: ${{ fromJSON(needs.compile-matrix.outputs.include-list) || [{ "board": "nice_nano_v2", "shieldArgs": "[{\"shield\":\"rgovision\",\"cmake-args\":\"\"}]" }] }}
+    steps:s
       - name: Checkout
         uses: actions/checkout@v3
+        
+      - name: Check if matrix is empty
+        if: ${{ matrix.include == null || matrix.include.length == 0 }}
+        run: echo "Matrix include list is empty. Exiting..." && exit 1
+
       - name: Cache west modules
         uses: actions/cache@v3.0.2
         env:
@@ -42,18 +47,24 @@ jobs:
             ${{ runner.os }}-
         timeout-minutes: 2
         continue-on-error: true
+
       - name: Initialize workspace (west init)
         run: west init -l app
+
       - name: Update modules (west update)
         run: west update
+
       - name: Export Zephyr CMake package (west zephyr-export)
         run: west zephyr-export
+
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "14.x"
+
       - name: Install @actions/artifact
         run: npm install @actions/artifact
+
       - name: Build and upload artifacts
         uses: actions/github-script@v4
         id: boards-list
@@ -102,7 +113,7 @@ jobs:
 
             if (error) {
               throw new Error('Failed to build one or more configurations');
-            }
+
   compile-matrix:
     if: ${{ always() }}
     runs-on: ubuntu-latest
@@ -136,13 +147,18 @@ jobs:
                 shield: configuration.shield,
                 'cmake-args': configuration['cmake-args'],
                 nickname: configuration.nickname
-              })
+              });
             }
 
-            return Object.entries(perBoard).map(([board, shieldArgs]) => ({
+            const result = Object.entries(perBoard).map(([board, shieldArgs]) => ({
               board,
               shieldArgs: JSON.stringify(shieldArgs),
             }));
+
+            console.log("Compiled include list: ", JSON.stringify(result, null, 2));  // Debugging output
+
+            return result;
+
   core-coverage:
     if: ${{ needs.get-changed-files.outputs.core-changes == 'true' }}
     runs-on: ubuntu-latest
@@ -172,6 +188,7 @@ jobs:
             );
 
             return [...include, ...coreCoverage.include];
+
   board-changes:
     if: ${{ needs.get-changed-files.outputs.board-changes == 'true' }}
     runs-on: ubuntu-latest
@@ -243,168 +260,4 @@ jobs:
                     break;
                   case "shield":
                     if (hm.features && hm.features.includes("keys")) {
-                      return hm.requires.flatMap(i => 
-                        metadata.interconnects[i].boards.flatMap(b => boardAndShield(b, hm))
-                      );
-                    } else {
-                      console.warn("Unhandled shield without keys");
-                      return [];
-                    }
-                    break;
-                  case "interconnect":
-                    return [];
-                }
-              });
-            }))).flat();
-  nightly:
-    if: ${{ github.event_name == 'schedule' }}
-    runs-on: ubuntu-latest
-    needs: get-grouped-hardware
-    outputs:
-      nightly-include: ${{ steps.nightly-list.outputs.result }}
-    steps:
-      - name: Create nightly list
-        uses: actions/github-script@v4
-        id: nightly-list
-        with:
-          script: |
-            const metadata = JSON.parse(`${{ needs.get-grouped-hardware.outputs.organized-metadata }}`);
-
-            let includeOnboard = metadata.onboard.flatMap(b => {
-              if (b.siblings) {
-                return b.siblings.map(board => ({
-                  board,
-                }));
-              } else {
-                return {
-                  board: b.id,
-                };
-              }
-            });
-
-            let includeInterconnect = Object.values(metadata.interconnects).flatMap(i =>
-              i.boards.flatMap(b =>
-                i.shields.flatMap(s => {
-                  if (s.siblings) {
-                    return s.siblings.map(shield => ({
-                      board: b.id,
-                      shield,
-                    }));
-                  } else {
-                    return {
-                      board: b.id,
-                      shield: s.id,
-                    };
-                  }
-                })
-              )
-            );
-
-            return [...includeOnboard, ...includeInterconnect];
-  get-grouped-hardware:
-    runs-on: ubuntu-latest
-    outputs:
-      organized-metadata: ${{ steps.organize-metadata.outputs.result }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14.x"
-      - name: Install js-yaml
-        run: npm install js-yaml
-      - name: Aggregate Metadata
-        uses: actions/github-script@v4
-        id: aggregate-metadata
-        with:
-          script: |
-            const fs = require('fs');
-            const yaml = require('js-yaml');
-
-            const globber = await glob.create("app/boards/**/*.zmk.yml");
-            const files = await globber.glob();
-
-            const aggregated = files.flatMap((f) =>
-              yaml.loadAll(fs.readFileSync(f, "utf8"))
-            );
-
-            return JSON.stringify(aggregated).replace(/\\/g,"\\\\").replace(/`/g,"\\`");
-          result-encoding: string
-
-      - name: Organize Metadata
-        uses: actions/github-script@v4
-        id: organize-metadata
-        with:
-          script: |
-            const hardware = JSON.parse(`${{ steps.aggregate-metadata.outputs.result }}`);
-
-            const grouped = hardware.reduce((agg, hm) => {
-              switch (hm.type) {
-                case "board":
-                  if (hm.features && hm.features.includes("keys")) {
-                    agg.onboard.push(hm);
-                  } else if (hm.exposes) {
-                    hm.exposes.forEach((element) => {
-                      let ic = agg.interconnects[element] || {
-                        boards: [],
-                        shields: [],
-                      };
-                      ic.boards.push(hm);
-                      agg.interconnects[element] = ic;
-                    });
-                  } else {
-                    console.error("Board without keys or interconnect");
-                  }
-                  break;
-                case "shield":
-                  if (hm.features && hm.features.includes("keys")) {
-                    hm.requires.forEach((id) => {
-                      let ic = agg.interconnects[id] || { boards: [], shields: [] };
-                      ic.shields.push(hm);
-                      agg.interconnects[id] = ic;
-                    });
-                  }
-                  break;
-                case "interconnect":
-                  let ic = agg.interconnects[hm.id] || { boards: [], shields: [] };
-                  ic.interconnect = hm;
-                  agg.interconnects[hm.id] = ic;
-                  break;
-              }
-              return agg;
-            },
-            { onboard: [], interconnects: {} });
-
-            return JSON.stringify(grouped).replace(/\\/g,"\\\\").replace(/`/g,"\\`");
-          result-encoding: string
-  get-changed-files:
-    if: ${{ github.event_name != 'schedule' }}
-    runs-on: ubuntu-latest
-    outputs:
-      changed-files: ${{ steps.changed-files.outputs.all }}
-      board-changes: ${{ steps.board-changes.outputs.result }}
-      core-changes: ${{ steps.core-changes.outputs.result }}
-    steps:
-      - uses: Ana06/get-changed-files@v2.0.0
-        id: changed-files
-        with:
-          format: "json"
-      - uses: actions/github-script@v4
-        id: board-changes
-        with:
-          script: |
-            const changedFiles = JSON.parse(`${{ steps.changed-files.outputs.all }}`);
-            const boardChanges = changedFiles.filter(f => f.startsWith('app/boards'));
-            return boardChanges.length ? 'true' : 'false';
-          result-encoding: string
-      - uses: actions/github-script@v4
-        id: core-changes
-        with:
-          script: |
-            const changedFiles = JSON.parse(`${{ steps.changed-files.outputs.all }}`);
-            const boardChanges = changedFiles.filter(f => f.startsWith('app/boards'));
-            const appChanges = changedFiles.filter(f => f.startsWith('app'));
-            const ymlChanges = changedFiles.includes('.github/workflows/build.yml');
-            return boardChanges.length < appChanges.length || ymlChanges ? 'true' : 'false';
-          result-encoding: string
+                      return hm.requires.flat

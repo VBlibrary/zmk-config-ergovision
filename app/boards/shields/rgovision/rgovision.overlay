@@ -42,7 +42,7 @@
             RC(4,0) RC(4,1) RC(4,2)                    
         >;
     };
-    
+
     i2c0: i2c@0 {
         status = "okay";
         compatible = "nordic,nrf-twim";
@@ -57,8 +57,9 @@
         status = "okay";
 
         i2c-bus = <&i2c0>;
-        i2c-address = <0x2A>;
+        i2c-address = <0x2a>;
         gpio-sda = <&pro_micro_i2c 2 (GPIO_ACTIVE_HIGH)>;
         gpio-scl = <&pro_micro_i2c 3 (GPIO_ACTIVE_HIGH)>;
+        dr-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
     };
 };

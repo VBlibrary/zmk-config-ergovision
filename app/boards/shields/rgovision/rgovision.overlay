@@ -43,7 +43,7 @@
         >;
     };
 
-    &i2c0 {
+    &pro_micro_i2c {
         status = "okay";
         compatible = "nordic,nrf-twim";
         sda-pin = <2>;   // Updated SDA pin number for nice_nano_v2
@@ -52,7 +52,7 @@
 
          trackpad@2a {
             compatible = "cirque,pinnacle";
-            label = "ctrackpad";
+            label = "trackpad";
             status = "okay";
 
             reg = <0x2a>;  // I2C address of the trackpad

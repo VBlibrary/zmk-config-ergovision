@@ -119,3 +119,7 @@ zephyr_cc_option(-Wfatal-errors)
 add_subdirectory_ifdef(CONFIG_PINNACLE cirque_trackpad)
 
 add_subdirectory(app/src/mouse)
+
+
+set(DTS_BINDINGS_DIR "${CMAKE_SOURCE_DIR}/app/dts/bindings")
+list(APPEND DTS_INCLUDE_DIRS ${DTS_BINDINGS_DIR})

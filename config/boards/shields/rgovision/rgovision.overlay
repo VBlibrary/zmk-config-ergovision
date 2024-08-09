@@ -18,7 +18,7 @@
             &pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
             &pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
         >;
-        
+
         col-gpios = <
             &pro_micro 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
             &pro_micro 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
@@ -44,13 +44,13 @@
     };
 
     &i2c0 {
-        status = "disabled";
+        status = "disabled";  // Disable I2C by default
 
         glidepoint0: glidepoint@2a {
             compatible = "cirque,pinnacle";
             reg = <0x2a>;
-            status = "disabled";
-            dr-gpios = <&pro_micro 10 (GPIO_ACTIVE_HIGH)>;
+            status = "disabled";  // Disable Glidepoint by default
+            dr-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH)>;
 
             sensitivity = "2x";
             sleep;

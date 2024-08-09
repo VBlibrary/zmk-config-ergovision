@@ -18,7 +18,7 @@
             &pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
             &pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
         >;
-
+        
         col-gpios = <
             &pro_micro 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
             &pro_micro 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
@@ -44,20 +44,37 @@
     };
 
     &i2c0 {
-        status = "okay";
-        sda-pin = <2>;   
-        scl-pin = <3>;
-        clock-frequency = <I2C_BITRATE_FAST>; // Typically 400kHz
+        status = "disabled";
+
+        glidepoint0: glidepoint@2a {
+            compatible = "cirque,pinnacle";
+            reg = <0x2a>;
+            status = "disabled";
+            dr-gpios = <&pro_micro 10 (GPIO_ACTIVE_HIGH)>;
+
+            sensitivity = "2x";
+            sleep;
+            //no-taps;
+        };
     };
-        
-    trackpad {
-        compatible = "cirque,pinnacle";
-        label = "trackpad";
-        status = "okay";
-        reg = <0x2a>;  // I2C address of the trackpad
-        dr-gpios = <&pro_micro 10 GPIO_ACTIVE_HIGH>;
-        rotate-90;
-        sleep;
-     };
-    
+
+    /* Assign `input-listener` to all pointing devices */
+    /* &glidepoint0 on central, &glidepoint1 on peripheral */
+    tpad_central_listener {
+        compatible = "zmk,input-listener";
+        device = <&glidepoint0>;
+        //xy-swap;
+        y-invert;
+        //x-invert;
+        scale-multiplier = <2>;
+    };
+
+    tpad_peripheral_listener {
+        compatible = "zmk,input-listener";
+        device = <&glidepoint1>;
+        //xy-swap;
+        y-invert;
+        //x-invert;
+        scale-multiplier = <2>;
+    };
 };

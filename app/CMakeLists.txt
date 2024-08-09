@@ -102,6 +102,9 @@ target_sources_ifdef(CONFIG_ZMK_LED_WIDGETS app PRIVATE src/led_widgets.c)
 
 zephyr_library()
 zephyr_library_sources(trackpad.c)
+zephyr_library_sources(led_widgets.c)
+zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
+zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/../include)
 
 zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
 zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/../include)
@@ -112,3 +115,21 @@ endif()
 add_subdirectory(src/display/)
 
 zephyr_cc_option(-Wfatal-errors)
+
+add_subdirectory_ifdef(CONFIG_PINNACLE cirque_trackpad)
+
+target_sources(app PRIVATE src/behaviors/behavior_mouse_key_press.c)
+target_sources(app PRIVATE src/behaviors/behavior_mouse_move.c)
+target_sources(app PRIVATE src/behaviors/behavior_mouse_scroll.c)
+
+target_sources(app PRIVATE src/events/endpoint_selection_changed.c)
+target_sources(app PRIVATE src/events/sensor_event.c)
+target_sources(app PRIVATE src/events/mouse_button_state_changed.c)
+target_sources(app PRIVATE src/events/mouse_move_state_changed.c)
+target_sources(app PRIVATE src/events/mouse_tick.c)
+target_sources(app PRIVATE src/events/mouse_scroll_state_changed.c)
+
+target_sources(app PRIVATE src/mouse/key_listener.c)
+target_sources(app PRIVATE src/mouse/main.c)
+target_sources(app PRIVATE src/mouse/tick_listener.c)
+target_sources(app PRIVATE src/sensors.c)

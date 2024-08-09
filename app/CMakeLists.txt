@@ -118,18 +118,4 @@ zephyr_cc_option(-Wfatal-errors)
 
 add_subdirectory_ifdef(CONFIG_PINNACLE cirque_trackpad)
 
-target_sources(app PRIVATE src/behaviors/behavior_mouse_key_press.c)
-target_sources(app PRIVATE src/behaviors/behavior_mouse_move.c)
-target_sources(app PRIVATE src/behaviors/behavior_mouse_scroll.c)
-
-target_sources(app PRIVATE src/events/endpoint_selection_changed.c)
-target_sources(app PRIVATE src/events/sensor_event.c)
-target_sources(app PRIVATE src/events/mouse_button_state_changed.c)
-target_sources(app PRIVATE src/events/mouse_move_state_changed.c)
-target_sources(app PRIVATE src/events/mouse_tick.c)
-target_sources(app PRIVATE src/events/mouse_scroll_state_changed.c)
-
-target_sources(app PRIVATE src/mouse/key_listener.c)
-target_sources(app PRIVATE src/mouse/main.c)
-target_sources(app PRIVATE src/mouse/tick_listener.c)
-target_sources(app PRIVATE src/sensors.c)
+add_subdirectory(app/src/mouse)

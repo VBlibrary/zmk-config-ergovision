@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  Binding for Cirque trackpads.
+
+compatible: "cirque,trackpad"
+
+properties:
+  reg:
+    required: true
+    description: I2C address of the device.
+
+  int-gpios:
+    type: phandle-array
+    required: false
+    description: GPIO specifier for the interrupt pin.
+
+  dr-gpios:
+    type: phandle-array
+    description: GPIO specifier for the DR pin.
+
+  label:
+    required: true
+    type: string
+    description: Human-readable string describing the device.

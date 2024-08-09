@@ -100,6 +100,11 @@ target_sources_ifdef(CONFIG_ZMK_BACKLIGHT app PRIVATE src/backlight.c)
 target_sources(app PRIVATE src/main.c)
 target_sources_ifdef(CONFIG_ZMK_LED_WIDGETS app PRIVATE src/led_widgets.c)
 
+zephyr_library()
+zephyr_library_sources(trackpad.c)
+
+zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
+zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/../include)
 if (CONFIG_ZMK_EMBEDDED_STENO)
     add_subdirectory(steno)
 endif()

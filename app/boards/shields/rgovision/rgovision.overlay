@@ -1,5 +1,6 @@
 #include <dt-bindings/zmk/matrix_transform.h>
-
+#include <drivers/sensor/cirque_trackpad.h>
+#include <dt-bindings/zmk/mouse.h>
 / {
     chosen {
         zmk,kscan = &default_kscan;

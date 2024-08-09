@@ -4,6 +4,11 @@ manifest:
       url-base: https://github.com/zephyrproject-rtos
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: krikun98
+      url-base: https://github.com/krikun98
+    - name: crides
+      url-base: https://github.com/crides
+
   projects:
     - name: zephyr
       remote: zmkfirmware
@@ -30,5 +35,16 @@ manifest:
           - edtt
           - trusted-firmware-m
           - sof
+
+    - name: zmk
+      remote: krikun98
+      revision: mouse-pr
+      path: modules/krikun98-zmk
+
+    - name: fusion-led-c-config
+      remote: crides
+      revision: fusion-led-c-config
+      path: modules/crides-fusion-led-c-config
+
   self:
     west-commands: scripts/west-commands.yml

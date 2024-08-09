@@ -49,15 +49,15 @@
         scl-pin = <3>;   // SCL pin for nice_nano_v2
         clock-frequency = <I2C_BITRATE_FAST>; // Typically 400kHz
 
-        // Comment out the trackpad node for debugging
-        // trackpad: trackpad {
-        //     compatible = "cirque,pinnacle";
-        //     label = "ctrackpad";
-        //     status = "okay";
-        //     reg = <0x2a>;  // I2C address of the trackpad
-        //     dr-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
-        //     rotate-90;
-        //     sleep;
-        // };
+        
+         trackpad: trackpad {
+             compatible = "cirque,pinnacle";
+             label = "ctrackpad";
+             status = "okay";
+             reg = <0x2a>;  // I2C address of the trackpad
+             dr-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
+             rotate-90;
+             sleep;
+         };
     };
 };

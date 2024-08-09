@@ -50,14 +50,14 @@
         clock-frequency = <I2C_BITRATE_FAST>; // Typically 400kHz
     };
         
-    trackpad: trackpad {
-             compatible = "cirque,pinnacle";
-             label = "trackpad";
-             status = "okay";
-             reg = <0x2a>;  // I2C address of the trackpad
-             dr-gpios = <&pro_micro 10 GPIO_ACTIVE_HIGH>;
-             rotate-90;
-             sleep;
-            };
+    trackpad {
+        compatible = "cirque,pinnacle";
+        label = "trackpad";
+        status = "okay";
+        reg = <0x2a>;  // I2C address of the trackpad
+        dr-gpios = <&pro_micro 10 GPIO_ACTIVE_HIGH>;
+        rotate-90;
+        sleep;
+     };
     
 };

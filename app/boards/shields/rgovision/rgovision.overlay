@@ -1,4 +1,4 @@
-#include <dt-bindings/behaviors/cirque,trackpad.h>
+
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
@@ -53,7 +53,7 @@
 
          trackpad@2a {
             compatible = "cirque,pinnacle";
-            label = "cirque_trackpad";
+            label = "ctrackpad";
             status = "okay";
 
             reg = <0x2a>;  // I2C address of the trackpad

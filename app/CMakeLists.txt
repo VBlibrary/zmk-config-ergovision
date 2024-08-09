@@ -125,3 +125,4 @@ set(DTS_BINDINGS_DIR "${CMAKE_SOURCE_DIR}/app/dts/bindings")
 list(APPEND DTS_INCLUDE_DIRS ${DTS_BINDINGS_DIR})
 
 zephyr_library_sources(cirque_trackpad.c)
+zephyr_library_sources(trackpad.c)

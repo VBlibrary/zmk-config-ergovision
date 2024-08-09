@@ -18,7 +18,7 @@
             &pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
             &pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
         >;
-        
+
         col-gpios = <
             &pro_micro 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
             &pro_micro 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
@@ -43,23 +43,21 @@
         >;
     };
 
-    &pro_micro_i2c {
+    &i2c0 {
         status = "okay";
-        compatible = "nordic,nrf-twim";
-        sda-pin = <2>;   // Updated SDA pin number for nice_nano_v2
-        scl-pin = <3>;   // Updated SCL pin number for nice_nano_v2
+        sda-pin = <2>;   // SDA pin for nice_nano_v2
+        scl-pin = <3>;   // SCL pin for nice_nano_v2
         clock-frequency = <I2C_BITRATE_FAST>; // Typically 400kHz
 
-         trackpad {
-            compatible = "cirque,pinnacle";
-            label = "trackpad";
-            status = "okay";
-
-            reg = <0x2a>;  // I2C address of the trackpad
-            dr-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
-            rotate-90;
-            sleep;
-            // no-taps;
-        };
+        // Comment out the trackpad node for debugging
+        // trackpad: trackpad {
+        //     compatible = "cirque,pinnacle";
+        //     label = "ctrackpad";
+        //     status = "okay";
+        //     reg = <0x2a>;  // I2C address of the trackpad
+        //     dr-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
+        //     rotate-90;
+        //     sleep;
+        // };
     };
 };

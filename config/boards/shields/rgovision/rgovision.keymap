@@ -9,11 +9,12 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/mouse.h>
+#include <behaviors/mouse_keys.dtsi>
 
 #define DEF 0;
 #define UPE 1;
 #define MSC 2;
-#define ZMK_MOUSE_DEFAULT_SCRL_VAL 5
+
 
 / {
     keymap {

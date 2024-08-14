@@ -4,11 +4,34 @@ manifest:
       url-base: https://github.com/zephyrproject-rtos
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: krikun98
-      url-base: https://github.com/krikun98
-    - name: crides
-      url-base: https://github.com/crides
-
+ 
+    - name: badjeff
+      url-base: https://github.com/badjeff
+  projects:
+    - name: zmk
+      remote: badjeff
+      revision: feat/pointers-move-scroll
+      import: app/west.yml
+    - name: zmk-analog-input-driver
+      remote: badjeff
+      revision: main
+    - name: zmk-split-peripheral-input-relay
+      remote: badjeff
+      revision: main
+    - name: zmk-split-peripheral-output-relay
+      remote: badjeff
+      revision: main
+    - name: zmk-input-behavior-listener
+      remote: badjeff
+      revision: main
+    - name: zmk-output-behavior-listener
+      remote: badjeff
+      revision: main
+    - name: cirque-input-module
+      remote: badjeff
+      revision: main
+  self:
+    path: config
   projects:
     - name: zephyr
       remote: zmkfirmware
@@ -35,16 +58,6 @@ manifest:
           - edtt
           - trusted-firmware-m
           - sof
-
-    - name: zmk
-      remote: krikun98
-      revision: mouse-pr
-      path: modules/krikun98-zmk
-
-    - name: fusion-led-c-config
-      remote: crides
-      revision: fusion-led-c-config
-      path: modules/crides-fusion-led-c-config
 
   self:
     west-commands: scripts/west-commands.yml

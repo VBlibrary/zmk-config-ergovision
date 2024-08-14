@@ -6,4 +6,8 @@ shield:
 include:
 - board: nice_nano_v2
   shield: rgovision
-  
+
+- board: nice_nano_v2
+  shield: ergovision_left
+- board: nice_nano_v2
+  shield: ergovision_right

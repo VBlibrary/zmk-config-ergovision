@@ -5,6 +5,7 @@
 #include <zmk/endpoints.h>
 #include <zmk/keymap.h>
 #include <dt-bindings/zmk/mouse.h>
+#include "cirque_trackpad.h"
 
 #define SCROLL_DIV_FACTOR 5
 

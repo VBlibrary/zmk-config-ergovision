@@ -12,10 +12,11 @@ manifest:
     - name: zmk-analog-input-driver
       remote: badjeff
       revision: main
-      url-base: https://github.com/badjeff/zmk-analog-input-driver
+      import: https://github.com/badjeff/zmk-analog-input-driver
     - name: zmk-split-peripheral-input-relay
       remote: badjeff
       revision: main
+      import: true
     - name: zmk-split-peripheral-output-relay
       remote: badjeff
       revision: main

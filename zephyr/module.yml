@@ -1,7 +1,4 @@
 build:
   settings:
     board_root: .
-    
-name: zmk-split-peripheral-output-relay
- cmake: .
- kconfig: Kconfig
+

@@ -9,6 +9,7 @@
 #include <dt-bindings/zmk/bt.h>
 #include <behaviors/mouse_move.dtsi>
 #include <dt-bindings/zmk/mouse.h>
+
 #define ZMK_MOUSE_DEFAULT_MOVE_VAL 1500  // 600
 #define ZMK_MOUSE_DEFAULT_SCRL_VAL 20    // 10
 
@@ -30,23 +31,3 @@
         };
     };
 };
-
- trackpad_peripheral_scroll_listener {
-        compatible = "zmk,input-behavior-listener";
-        device = <&glidepoint>;
-        layers = <QWERTY NAV MOUSE>;
-        evt-type = <INPUT_EV_REL>;
-        x-input-code = <INPUT_REL_WHEEL>;
-        y-input-code = <INPUT_REL_MISC>;
-        bindings = <&ib_wheel_scaler_x 1 8>;
-   }; 
-
-   trackpad_peripheral_scroll_snipe_listener {
-        compatible = "zmk,input-behavior-listener";
-        device = <&glidepoint>;
-        layers = <NUM SYS>;
-        evt-type = <INPUT_EV_REL>;
-        x-input-code = <INPUT_REL_WHEEL>;
-        y-input-code = <INPUT_REL_MISC>;
-        bindings = <&ib_wheel_scaler_x 1 16>;
-   }; 

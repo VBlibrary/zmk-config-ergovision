@@ -11,7 +11,7 @@ manifest:
       import: app/west.yml
     - name: zmk-analog-input-driver
       remote: badjeff
-      revision: https://github.com/badjeff/zmk-analog-input-driver
+      revision: main
     - name: zmk-split-peripheral-input-relay
       remote: badjeff
       revision: main

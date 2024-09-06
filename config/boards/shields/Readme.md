@@ -165,3 +165,29 @@ include:
 jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+
+
+
+
+
+  cirque_input_listener: cirque_input_listener {
+        compatible = "zmk,input-listener";
+        device = <&cirque>;                         /* Must be a phandle for your pinnacle@X node */
+        y-invert;                                   /* Depends upon the Cirque's orientation */
+    };
+};
+
+&blackpill_spi {                                    /* You can use &pro_micro_spi or &spi# here */
+    status = "okay";
+    cs-gpios = <&blackpill 13 GPIO_ACTIVE_LOW>;
+
+    cirque: pinnacle@0 {
+        compatible = "cirque,pinnacle";
+        reg = <0>;                                   /* This matches the X in pinnacle@X */
+        spi-max-frequency = <8000000>;               /* Maximum speed for spi0-2 is 8MHz on nRF52, may be different on your MCU */
+        sleep;                                       /* Optional */
+        dr-gpios = <&blackpill 12 GPIO_ACTIVE_HIGH>; /* REQUIRED. You can use &pro_micro or &gpio# here. */
+        sensitivity = "1x";                          /* No more than 2x if you have the thick curved overlay! */
+    };
+};
+ 

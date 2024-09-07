@@ -44,21 +44,30 @@
     };
 };
 
+&pwm0 {
+    status = "okay";
+};
 
+&led_strip {
+    compatible = "sk6812";
+    pin = <&pro_micro 
+    chain-length = <27>;
+    label = "SK6812_Mini_E";
+};
 
 
 &i2c0 {
-        status = "okay";  // Disable I2C by default
+        status = "disabled";  // Disable I2C by default
 
         glidepoint0: glidepoint@2a {
             compatible = "cirque,pinnacle";
             reg = <0x2a>;
-            status = "okay";  // Disable Glidepoint by default
+            status = "disabled";  // Disable Glidepoint by default
             dr-gpios = <&pro_micro 10 (GPIO_ACTIVE_HIGH)>;
 
             sensitivity = "2x";
             sleep;
-            //no-taps;
+            no-taps;
         };
     };
 

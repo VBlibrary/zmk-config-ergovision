@@ -12,10 +12,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/events/mouse_tick.h>
 #include <zmk/endpoints.h>
 #include <zmk/mouse.h>
-<<<<<<< HEAD
 #include <zmk/hid.h>
-=======
->>>>>>> mouse-pr/mouse-pr
 
 #include <sys/util.h> // CLAMP
 
@@ -103,8 +100,4 @@ int zmk_mouse_tick_listener(const zmk_event_t *eh) {
 }
 
 ZMK_LISTENER(zmk_mouse_tick_listener, zmk_mouse_tick_listener);
-<<<<<<< HEAD
 ZMK_SUBSCRIPTION(zmk_mouse_tick_listener, zmk_mouse_tick);
-=======
-ZMK_SUBSCRIPTION(zmk_mouse_tick_listener, zmk_mouse_tick);
->>>>>>> mouse-pr/mouse-pr

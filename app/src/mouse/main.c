@@ -22,19 +22,9 @@ struct k_work_q *zmk_mouse_work_q() {
 
 int zmk_mouse_init() {
 #if IS_ENABLED(CONFIG_ZMK_MOUSE_WORK_QUEUE_DEDICATED)
-<<<<<<< HEAD
-    k_work_queue_start(&mouse_work_q, mouse_work_stack_area,
-                   K_THREAD_STACK_SIZEOF(mouse_work_stack_area),
-                   CONFIG_ZMK_MOUSE_DEDICATED_THREAD_PRIORITY,
-                   NULL);
-#endif
-    return 0;
-}
-=======
     k_work_q_start(&mouse_work_q, mouse_work_stack_area,
                    K_THREAD_STACK_SIZEOF(mouse_work_stack_area),
                    CONFIG_ZMK_MOUSE_DEDICATED_THREAD_PRIORITY);
 #endif
     return 0;
 }
->>>>>>> mouse-pr/mouse-pr
